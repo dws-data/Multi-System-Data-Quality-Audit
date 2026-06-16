@@ -36,7 +36,7 @@ The data is synthetic and was generated to replicate realistic data quality issu
 | DQ-3 | Finance | DOB mismatches vs SRS | ~1% (150 rows) | Accuracy, day/month transposition |
 | DQ-4 | Finance | Ghost records not in SRS | ~3% (450 rows) | Consistency, purge process failure |
 | DQ-5 | Finance | Fee-status conflicts vs SRS | ~2% (300 rows) | Consistency, HESA funding risk |
-| DQ-6 | LMS | Students with no account | ~6% (900 rows) | Completeness, onboarding failure |
+| DQ-6 | LMS | Students with no account | ~6% (975 rows) | Completeness, onboarding failure |
 | DQ-7 | LMS | Withdrawn students still active | ~50% of withdrawn (739 rows) | Consistency, deactivation process failure |
 | DQ-8 | LMS | Null account_status | ~4% (564 rows) | Completeness, incomplete migration |
 
@@ -68,17 +68,28 @@ The notebook covers:
 2. **Null rate profiling:** completeness check per field per system
 3. **Duplicate checks:** duplicate IDs and duplicate persons
 4. **Value distribution analysis:** enrolment status, fee status, programme, nationality, login activity
-5. **Cross-system analysis:** ID linkage, population overlaps, fee-status conflicts *(in progress)*
-6. **Issue register:** structured summary of all findings with severity and category *(in progress)*
+5. **Cross-system analysis:** ID linkage, population overlaps, fee-status and naming conflicts
+6. **Issue register:** structured summary of all findings with severity, category, and priority
 
 ---
 
-## Key Findings (Completed Sections)
+## Key Findings
 
-- Every inactive LMS account has a null last login date (1,287 records). Nulls are not random, they follow account status exactly.
-- 564 records have a null account_status in LMS despite most having a login date, likely an incomplete migration.
-- Fee-status field uses inconsistent values across SRS and Finance (e.g. Home vs H, Overseas vs O).
-- Nationality field in SRS has a ~10% null rate, a direct HESA compliance risk.
+**Population gaps (cross-system):**
+- 65 active students in SRS have no Finance record. Fees may not be collected for current students. Highest priority finding.
+- 450 Finance records have no SRS match. All are inactive, likely ghost records from a failed purge process.
+- 975 students in SRS have no LMS account. Root cause unknown, requires investigation.
+- 1,350 Finance records have no LMS match.
+
+**Completeness:**
+- 1,511 null nationality values in SRS (~10%). Nationality is a mandatory HESA return field with no fallback in other systems. Direct compliance risk.
+- 564 null account_status values in LMS. 504 of these have login history, suggesting an incomplete migration.
+- 1,347 null last login dates in LMS. Maps exactly to inactive accounts (1,287) and null-status records (60). Nulls are not random.
+
+**Consistency:**
+- Fee status coded differently across SRS (Home/Overseas) and Finance (H/O). Cannot be compared without transformation.
+- Programme names formatted differently across SRS (BSc Computer Science) and LMS (Computer Science BSc). Cannot be joined without transformation.
+- Enrolment status uses different labels across SRS (Active/Withdrawn) and Finance (Enrolled/Inactive). Equivalence requires stakeholder confirmation.
 
 ---
 
