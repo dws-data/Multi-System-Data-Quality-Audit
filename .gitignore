@@ -1,0 +1,17 @@
+# DuckDB
+*.duckdb
+*.duckdb.wal
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Working notes
+notes.md
+
+# Claude Code
+.claude/
