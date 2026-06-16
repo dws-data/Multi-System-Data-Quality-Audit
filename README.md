@@ -29,16 +29,19 @@ The data is synthetic and was generated to replicate realistic data quality issu
 
 ## Data Quality Issues Identified
 
-| ID | System | Issue | Scale | Category |
-|---|---|---|---|---|
-| DQ-1 | SRS | Missing nationality | ~10% (1,500 rows) | Completeness, HESA compliance risk |
-| DQ-2 | SRS | Duplicate student records | ~0.5% (75 rows) | Uniqueness, migration artefact |
-| DQ-3 | Finance | DOB mismatches vs SRS | ~1% (150 rows) | Accuracy, day/month transposition |
-| DQ-4 | Finance | Ghost records not in SRS | ~3% (450 rows) | Consistency, purge process failure |
-| DQ-5 | Finance | Fee-status conflicts vs SRS | ~2% (300 rows) | Consistency, HESA funding risk |
-| DQ-6 | LMS | Students with no account | ~6% (975 rows) | Completeness, onboarding failure |
-| DQ-7 | LMS | Withdrawn students still active | ~50% of withdrawn (739 rows) | Consistency, deactivation process failure |
-| DQ-8 | LMS | Null account_status | ~4% (564 rows) | Completeness, incomplete migration |
+| ID | System | Issue | Scale | Category | Priority |
+|---|---|---|---|---|---|
+| DQ-1 | SRS | Missing nationality | 1,511 (~10%) | Completeness, HESA compliance risk | High |
+| DQ-2 | SRS | Duplicate persons | 76 records | Uniqueness, migration artefact | Medium |
+| DQ-3 | SRS / Finance | 75 SRS records not in Finance | 65 active | Population gap, fees may not be collected | High |
+| DQ-4 | Finance / SRS | 450 Finance records not in SRS | All inactive | Population gap, likely ghost records | Medium |
+| DQ-5 | SRS / LMS | 975 SRS records not in LMS | Mixed statuses | Population gap, no LMS account | Medium |
+| DQ-6 | Finance / LMS | 1,350 Finance records not in LMS | — | Population gap | Medium |
+| DQ-7 | SRS / Finance | Fee status coding mismatch | All records | Consistency, cannot compare without mapping | Medium |
+| DQ-8 | SRS / LMS | Programme naming mismatch | All records | Consistency, cannot join without transformation | Medium |
+| DQ-9 | SRS / Finance | Enrolment status label mismatch | All records | Consistency, equivalence unconfirmed | Medium |
+| DQ-10 | LMS | Null account_status | 564 (~4%) | Completeness, incomplete migration | Medium |
+| DQ-11 | LMS | Null last login dates | 1,347 | Completeness, maps to inactive accounts | Low |
 
 ---
 
